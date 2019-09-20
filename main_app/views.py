@@ -1,18 +1,15 @@
-  
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
 from .models import Item
-from django.views.generic.edit import CreateView, DeleteView
-
+# Create your views here.
 def index(request):
     items = Item.objects.all()
-    return render(request, 'index.html',{'items': items})
+    return render(request, 'index.html', { 'items': items })
 
-
-class ItemCreate(CreateView):
+class AddItem(CreateView):
     model = Item
     fields = '__all__'
-    success_url = '/'
 
-class ItemDelete(DeleteView):
-    model = Item
-    success_url = '/'
+def delete(request, item_id):
+    Item.objects.filter(id=item_id).delete()
+    return redirect('index')

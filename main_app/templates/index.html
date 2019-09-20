@@ -5,36 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Assessment 3</title>
+    <title>Wish LIst</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <h1>Wish List</h1>
-    {% if items|length == 0 %}
+<body> 
+    <h1>Wish List Items</h1>
+        {% if items %}
+            <table class="pure-table pure-table-striped">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                {% for item in items %}
+                        <td>{{item.description}}</td>
+                        <td><a href="{% url 'delete' item.id %}">X</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        {% else %}
         <h3>No Wish Items Exist</h3>
-    {% else %}
-        <table class="pure-table pure-table-striped">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
+        {% endif %}
+        <hr>
+    <a href="{% url 'add' %}" class="pure-button">Add A Wish Item</a>
 
-            {% for item in items %}
-                <tr>
-                    <th>{{item.description}}</th>
-                    <th><a href="{% url 'items_delete' item.id %}">X</a></th>
-                </tr>
-            {% endfor %}
-
-        </table>
-    {% endif %}
-    <hr>
-
-    <form method="GET" action="{% url 'items_create' %}">
-        <input type="submit" value="Add a Wish Item">
-        </form>
 </body>
 </html>
